@@ -1,1 +1,1 @@
-key    = "tw-prodwest.tfstate"
+key    = "tf-gitops-prodwest.tfstate"
