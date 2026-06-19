@@ -16,6 +16,11 @@ env:
   TF_INPUT: false
   TF_VERSION: ${{ vars.TF_VERSION }}
 
+  # 1. Added top-level permissions block for OIDC token generation
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   # Get the workflow run ID from the CI workflow for artifact retrieval
   get-run-id:
@@ -50,6 +55,7 @@ jobs:
     permissions:
       contents: read
       actions: read
+      id-token: write # 2. Added to allow this job to fetch AWS STS tokens
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
