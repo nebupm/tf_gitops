@@ -11,14 +11,12 @@ variable "prefix" {
 variable "aws_region" {
   type        = string
   description = "(Optional) AWS Region to deploy in. Defaults to us-east-1."
-  default     = "eu-west-1"
 }
 
-variable "aws_profile" {
-  type        = string
-  description = "(Optional) AWS Profile to use for authentication. Defaults to 'default'."
-  default     = "default"
-}
+#variable "aws_profile" {
+#  type        = string
+#  description = "(Optional) AWS Profile to use for authentication. Defaults to 'default'."
+#}
 
 variable "vpc_address_range" {
   type        = string

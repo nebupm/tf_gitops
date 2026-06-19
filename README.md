@@ -31,8 +31,7 @@ Example setup with terraform and gitops
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
-| <a name="input_aws_profile"></a> [aws\_profile](#input\_aws\_profile) | (Optional) AWS Profile to use for authentication. Defaults to 'default'. | `string` | `"default"` | no |
-| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | (Optional) AWS Region to deploy in. Defaults to us-east-1. | `string` | `"eu-west-1"` | no |
+| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | (Optional) AWS Region to deploy in. Defaults to us-east-1. | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | (Required) Environment of all resources | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | (Required) Prefix to use for all resources in this module. | `string` | n/a | yes |
 | <a name="input_vpc_address_range"></a> [vpc\_address\_range](#input\_vpc\_address\_range) | Address range for the VPC | `string` | n/a | yes |
