@@ -11,7 +11,7 @@ jobs:
   destroy:
     runs-on: ubuntu-latest
     # CRITICAL: This line ensures the job only runs if YOU triggered it
-    if: github.actor == 'deneasta@gmail.com'
+    if: github.actor == 'nebupm'
     
     steps:
       - name: Checkout Code
