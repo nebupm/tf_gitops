@@ -13,7 +13,7 @@ Example setup with terraform and gitops
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.49.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.50.0 |
 
 ## Modules
 
@@ -31,9 +31,9 @@ Example setup with terraform and gitops
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | (Optional) AWS Region to deploy in. Defaults to us-east-1. | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | (Required) Environment of all resources | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | (Required) Prefix to use for all resources in this module. | `string` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | (Optional) AWS Region to deploy in. Defaults to us-east-1. | `string` | `"eu-west-1"` | no |
 | <a name="input_vpc_address_range"></a> [vpc\_address\_range](#input\_vpc\_address\_range) | Address range for the VPC | `string` | n/a | yes |
 | <a name="input_vpc_public_subnet_ranges"></a> [vpc\_public\_subnet\_ranges](#input\_vpc\_public\_subnet\_ranges) | List of public subnet CIDR ranges for the VPC | `list(string)` | n/a | yes |
 

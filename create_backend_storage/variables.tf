@@ -7,7 +7,6 @@ variable "aws_region" {
 variable "aws_profile" {
   description = "AWS CLI profile to use for credentials"
   type        = string
-  default     = "ntegra-sb-sso-adm"
 }
 
 

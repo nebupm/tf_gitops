@@ -9,5 +9,6 @@ terraform {
 
   backend "s3" {
     # Use contents from backends/*.hcl files
+    use_lockfile = true
   }
 }
