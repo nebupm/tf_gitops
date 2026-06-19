@@ -17,4 +17,17 @@ module "vpc" {
   enable_vpn_gateway      = false
   enable_dns_hostnames    = true
   map_public_ip_on_launch = true
+  # Tags applied to the VPC, Internet Gateway, and Route Tables
+  tags = {
+    Who  = var.tag_who
+    What = var.tag_what
+    Why  = var.tag_why
+  }
+
+  # Tags applied specifically to the Public Subnets
+  public_subnet_tags = {
+    Who  = var.tag_who
+    What = var.tag_what
+    Why  = var.tag_why
+  }
 }

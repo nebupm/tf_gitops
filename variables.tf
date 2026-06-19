@@ -28,3 +28,17 @@ variable "vpc_public_subnet_ranges" {
   description = "List of public subnet CIDR ranges for the VPC"
 }
 
+variable "tag_who" {
+  type        = string
+  description = "Tag for who is responsible for the resources"
+}
+
+variable "tag_what" {
+  type        = string
+  description = "Tag for what the resources are"
+}
+
+variable "tag_why" {
+  type        = string
+  description = "Tag for why the resources exist"
+}
