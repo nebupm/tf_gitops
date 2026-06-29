@@ -56,7 +56,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Preflight: an environment with no backend config was never bootstrapped,
+      # so there is nothing to destroy. Skip it cleanly instead of failing the run
+      # (matters most for the "all" option, which may include un-bootstrapped envs).
+      - name: Preflight - verify backend config exists
+        id: preflight
+        run: |
+          BACKEND_CONFIG="./backends/${{ matrix.env_name }}.hcl"
+          if [ ! -f "$BACKEND_CONFIG" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Backend config '$BACKEND_CONFIG' not found — '${{ matrix.env_name }}' was never bootstrapped. Nothing to destroy; skipping."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "Found $BACKEND_CONFIG — proceeding with destroy of '${{ matrix.env_name }}'"
+          fi
+
       - name: Configure AWS Credentials
+        if: steps.preflight.outputs.ready == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           # Pulls variables cleanly from the matched GitHub Environment context
@@ -64,12 +80,15 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Setup Terraform
+        if: steps.preflight.outputs.ready == 'true'
         uses: hashicorp/setup-terraform@v3.1.2 # Native Node 24 support
         with:
           terraform_version: 1.13.0
 
       - name: Terraform Init
+        if: steps.preflight.outputs.ready == 'true'
         run: terraform init -backend-config="./backends/${{ matrix.env_name }}.hcl"
 
       - name: Terraform Destroy
+        if: steps.preflight.outputs.ready == 'true'
         run: terraform destroy -var-file="./environments/${{ matrix.env_name }}.tfvars" -auto-approve
