@@ -9,7 +9,8 @@ env:
   TF_LOG: INFO
   TF_INPUT: false
   TF_VERSION: ${{ vars.TF_VERSION }}
-  ENVIRONMENTS: '["dev","staging","prod"]'
+  #ENVIRONMENTS: '["dev","staging","prod"]'
+  ENVIRONMENTS: '["dev","staging"]'
 
 permissions:
   contents: read # Allows GITHUB_TOKEN to clone your code
