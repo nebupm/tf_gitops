@@ -23,8 +23,8 @@ jobs:
     environment: ${{ inputs.environment }}
     permissions:
       contents: read # Allows GITHUB_TOKEN to clone your code
-      pull-requests: write
-      id-token: write #Added to allow this job to fetch AWS STS tokens
+      #pull-requests: write
+      #id-token: write #Added to allow this job to fetch AWS STS tokens
 
     env:
       TF_LOG: INFO
