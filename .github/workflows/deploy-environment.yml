@@ -42,7 +42,7 @@ jobs:
             echo "::error::Create its state bucket via the create_backend_storage stack, then add $BACKEND_CONFIG."
             exit 1
           fi
-          echo "✅ Found $BACKEND_CONFIG"
+          echo "Found $BACKEND_CONFIG"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3

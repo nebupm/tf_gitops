@@ -65,10 +65,10 @@ jobs:
           for env in dev staging prod; do
             if [ -f "backends/${env}.hcl" ]; then
               echo "${env}_ready=true" >> "$GITHUB_OUTPUT"
-              echo "✅ backends/${env}.hcl found — ${env} will deploy"
+              echo "backends/${env}.hcl found — ${env} will deploy"
             else
               echo "${env}_ready=false" >> "$GITHUB_OUTPUT"
-              echo "⏭️ backends/${env}.hcl missing — ${env} skipped (not yet bootstrapped)"
+              echo "backends/${env}.hcl missing — ${env} skipped (not yet bootstrapped)"
             fi
           done
 
