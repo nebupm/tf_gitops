@@ -1,4 +1,4 @@
-name: Terraform Multi ENV CI
+name: Terraform Multi ENV CD
 on:
   pull_request:
     branches:
@@ -9,8 +9,8 @@ on:
 permissions:
   actions: read
   contents: read # Allows GITHUB_TOKEN to clone your code
-  pull-requests: write # Required by the nested deploy job
-  id-token: write # Required by the nested deploy job to fetch AWS STS tokens
+  #pull-requests: write # Required by the nested deploy job
+  #id-token: write # Required by the nested deploy job to fetch AWS STS tokens
 
 env:
   TF_LOG: INFO
@@ -33,7 +33,7 @@ jobs:
         run: |
           RUN_ID=$(gh run list \
             --repo ${{ github.repository }} \
-            --workflow "Terraform CI" \
+            --workflow "Terraform Multi ENV CI" \
             --branch ${{ github.head_ref }} \
             --status success \
             --limit 1 \

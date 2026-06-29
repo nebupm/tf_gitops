@@ -36,5 +36,9 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Ignore not needed files.
+*.bak
+*.neb
+
 # Any AI related file
 *claude*
