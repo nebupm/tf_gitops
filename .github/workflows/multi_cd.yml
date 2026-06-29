@@ -42,12 +42,43 @@ jobs:
           echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
           echo "Found CI Run ID: $RUN_ID"
 
-  # Deploy to each environment in sequence
-  # Each environment uses the reusable workflow and depends on the previous one
-  deploy-dev:
-    name: Deploy dev
+  # Preflight: detect which environments have been bootstrapped.
+  # An environment is "ready" only if its backend config (backends/<env>.hcl) exists.
+  # Environments without a backend config are skipped rather than failed,
+  # so the pipeline stays green for not-yet-bootstrapped envs (e.g. prod).
+  preflight:
+    name: Preflight - detect bootstrapped environments
     needs: [get-run-id]
     if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      dev_ready: ${{ steps.check.outputs.dev_ready }}
+      staging_ready: ${{ steps.check.outputs.staging_ready }}
+      prod_ready: ${{ steps.check.outputs.prod_ready }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check backend configs
+        id: check
+        run: |
+          for env in dev staging prod; do
+            if [ -f "backends/${env}.hcl" ]; then
+              echo "${env}_ready=true" >> "$GITHUB_OUTPUT"
+              echo "backends/${env}.hcl found — ${env} will deploy"
+            else
+              echo "${env}_ready=false" >> "$GITHUB_OUTPUT"
+              echo "backends/${env}.hcl missing — ${env} skipped (not yet bootstrapped)"
+            fi
+          done
+
+  # Deploy to each environment in sequence
+  # Each environment uses the reusable workflow and depends on the previous one.
+  # The `*_ready` gate skips an environment whose backend has not been created.
+  deploy-dev:
+    name: Deploy dev
+    needs: [get-run-id, preflight]
+    if: github.event.pull_request.merged == true && needs.preflight.outputs.dev_ready == 'true'
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment: dev
@@ -56,8 +87,8 @@ jobs:
 
   deploy-staging:
     name: Deploy staging
-    needs: [get-run-id, deploy-dev]
-    if: github.event.pull_request.merged == true
+    needs: [get-run-id, preflight, deploy-dev]
+    if: github.event.pull_request.merged == true && needs.preflight.outputs.staging_ready == 'true'
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment: staging
@@ -65,8 +96,8 @@ jobs:
       ci_run_id: ${{ needs.get-run-id.outputs.run_id }}
   deploy-prod:
     name: Deploy prod
-    needs: [get-run-id, deploy-staging]
-    if: github.event.pull_request.merged == true
+    needs: [get-run-id, preflight, deploy-staging]
+    if: github.event.pull_request.merged == true && needs.preflight.outputs.prod_ready == 'true'
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment: prod
