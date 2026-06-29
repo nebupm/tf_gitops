@@ -9,8 +9,8 @@ on:
 permissions:
   actions: read
   contents: read # Allows GITHUB_TOKEN to clone your code
-  #pull-requests: write # Required by the nested deploy job
-  #id-token: write # Required by the nested deploy job to fetch AWS STS tokens
+  id-token: write # Required by the nested deploy job to fetch AWS STS tokens
+  pull-requests: write # Required by the nested deploy job
 
 env:
   TF_LOG: INFO
