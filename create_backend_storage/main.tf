@@ -1,6 +1,14 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket_prefix = var.bucket_name_prefix
+  #tf-gitops-dev-terraform-state
+  bucket_prefix = "${var.prefix}-${var.environment}-${var.bucket_name}"
   force_destroy = var.force_destroy
+  tags = {
+    Who         = var.tag_who
+    What        = var.tag_what
+    Why         = var.tag_why
+    Environment = var.environment
+    Name        = "${var.prefix}-${var.environment}-${var.bucket_name}"
+  }
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {

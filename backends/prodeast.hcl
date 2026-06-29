@@ -1,1 +1,0 @@
-key    = "tf-gitops-prodeast.tfstate"

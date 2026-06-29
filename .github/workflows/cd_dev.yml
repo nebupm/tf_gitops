@@ -1,18 +1,17 @@
-name: Terraform CD
+name: Terraform CD (Manual Trigger)
 
+#on:
+#  pull_request:
+#    branches:
+#      - main
+#    types:
+#      - closed
 on:
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
+  workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
 
 # 1. Added top-level permissions block for OIDC token generation
 permissions:
-  id-token: write
-  contents: read
-  actions: read
-
+  contents: read # Allows GITHUB_TOKEN to clone your code
 env:
   TF_LOG: INFO
   TF_INPUT: false
@@ -50,9 +49,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     permissions:
-      contents: read
-      actions: read
-      id-token: write # 2. Added to allow this job to fetch AWS STS tokens
+        actions: read # Allows GITHUB_TOKEN to download artifacts from other jobs
+        id-token: write # Allows GITHUB_TOKEN to request the JWT token for AWS OIDC
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
